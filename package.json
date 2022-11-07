@@ -1,0 +1,22 @@
+{
+  "name": "assignment-11-server",
+  "version": "1.0.0",
+  "description": "assignment 11 server app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Porgramming-Hero-web-course/b6a11-service-review-server-side-pujadey48.git"
+  },
+  "keywords": [
+    "server"
+  ],
+  "author": "Puja dey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Porgramming-Hero-web-course/b6a11-service-review-server-side-pujadey48/issues"
+  },
+  "homepage": "https://github.com/Porgramming-Hero-web-course/b6a11-service-review-server-side-pujadey48#readme"
+}
