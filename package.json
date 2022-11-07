@@ -4,6 +4,7 @@
   "description": "assignment 11 server app",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/Porgramming-Hero-web-course/b6a11-service-review-server-side-pujadey48/issues"
   },
-  "homepage": "https://github.com/Porgramming-Hero-web-course/b6a11-service-review-server-side-pujadey48#readme"
+  "homepage": "https://github.com/Porgramming-Hero-web-course/b6a11-service-review-server-side-pujadey48#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "^4.11.0"
+  }
 }
