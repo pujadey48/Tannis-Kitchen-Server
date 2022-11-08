@@ -67,58 +67,7 @@ async function run(){
             res.send(result);
         });
 
-        // review releted apis
-        app.get('/reviewsForService/:serviceid', async (req, res) => {
-            const serviceId = req.params.serviceid;
-            query = { serviceId: ObjectId(serviceId) };
-            const cursor = reviewCollection.find(query);
-            const reviews = await cursor.toArray();
-            res.send(reviews);
-        });
-
-        app.get('/reviews', verifyJWT, async (req, res) => {
-            const decoded = req.decoded;
-            
-            if(decoded.email !== req.query.email){
-                res.status(403).send({message: 'unauthorized access'})
-            }
-
-            let query = {};
-            if (req.query.email) {
-                query = {
-                    email: req.query.email
-                }
-            }
-            const cursor = reviewCollection.find(query);
-            const reviews = await cursor.toArray();
-            res.send(reviews);
-        });
-
-        app.post('/reviews', verifyJWT, async (req, res) => {
-            const order = req.body;
-            const review = await reviewCollection.insertOne(order);
-            res.send(review);
-        });
-
-        app.patch('/reviews/:id', verifyJWT, async (req, res) => {
-            const id = req.params.id;
-            const status = req.body.status
-            const query = { _id: ObjectId(id) }
-            const updatedDoc = {
-                $set:{
-                    status: status
-                }
-            }
-            const review = await reviewCollection.updateOne(query, updatedDoc);
-            res.send(review);
-        })
-
-        app.delete('/reviews/:id', verifyJWT, async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const review = await reviewCollection.deleteOne(query);
-            res.send(review);
-        })
+        
 
     }
     finally{
