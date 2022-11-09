@@ -42,8 +42,8 @@ async function run(){
         // service releted apis
         app.post('/jwt', (req, res) =>{
             const user = req.body;
-            console.log(user);
             const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d'})
+            console.log({user, token});
             res.send({token})
         })
 
@@ -70,41 +70,47 @@ async function run(){
 
         app.post('/services', verifyJWT, async (req, res) => {
             const service = req.body;
-            const result = await serviceCollection.insertOne(order);
+            const result = await serviceCollection.insertOne(service);
+            console.log("result", result);
             res.send(result);
         });
 
         // review releted apis
         app.get('/reviewsForService/:serviceid', async (req, res) => {
             const serviceId = req.params.serviceid;
-            query = { serviceId: ObjectId(serviceId) };
-            const cursor = reviewCollection.find(query);
+            query = { serviceId: serviceId  };
+            sort = {timestamp: -1};
+            const cursor = reviewCollection.find(query).sort(sort);
             const reviews = await cursor.toArray();
+            console.log(reviews);
             res.send(reviews);
         });
 
         app.get('/reviews', verifyJWT, async (req, res) => {
             const decoded = req.decoded;
             
-            if(decoded.email !== req.query.email){
+            if(decoded.uid !== req.query.uid){
                 res.status(403).send({message: 'unauthorized access'})
             }
 
+            sort = {timestamp: -1};
             let query = {};
-            if (req.query.email) {
+            if (req.query.uid) {
                 query = {
-                    email: req.query.email
+                    uid: req.query.uid
                 }
             }
-            const cursor = reviewCollection.find(query);
+            const cursor = reviewCollection.find(query).sort(sort);
             const reviews = await cursor.toArray();
             res.send(reviews);
         });
 
         app.post('/reviews', verifyJWT, async (req, res) => {
-            const order = req.body;
-            const review = await reviewCollection.insertOne(order);
-            res.send(review);
+            const review = req.body;
+            review.timestamp = Date.now();
+            const result = await reviewCollection.insertOne(review);
+            console.log({review, result});
+            res.send(result);
         });
 
         app.patch('/reviews/:id', verifyJWT, async (req, res) => {
