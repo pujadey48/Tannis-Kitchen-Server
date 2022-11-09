@@ -40,7 +40,7 @@ async function run(){
         const reviewCollection = client.db('serviceReview').collection('reviews');
         
         // service releted apis
-        app.post('/getToken', (req, res) =>{
+        app.post('/jwt', (req, res) =>{
             const user = req.body;
             console.log(user);
             const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d'})
@@ -50,6 +50,13 @@ async function run(){
         app.get('/services', async (req, res) => {
             const query = {}
             const cursor = serviceCollection.find(query);
+            const services = await cursor.toArray();
+            res.send(services);
+        });
+
+        app.get('/threeservices', async (req, res) => {
+            const query = {}
+            const cursor = serviceCollection.find(query).limit(3);
             const services = await cursor.toArray();
             res.send(services);
         });
