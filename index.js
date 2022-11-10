@@ -88,6 +88,10 @@ async function run(){
 
         app.get('/reviews', verifyJWT, async (req, res) => {
             const decoded = req.decoded;
+
+            console.log("decoded",decoded);
+            console.log("req.query",req.query);
+            console.log("req.params",req.params);
             
             if(decoded.uid !== req.query.uid){
                 res.status(403).send({message: 'unauthorized access'})
@@ -115,22 +119,23 @@ async function run(){
 
         app.patch('/reviews/:id', verifyJWT, async (req, res) => {
             const id = req.params.id;
-            const status = req.body.status
+            const updateReview = req.body.review
             const query = { _id: ObjectId(id) }
             const updatedDoc = {
                 $set:{
-                    status: status
+                    review: updateReview
                 }
             }
-            const review = await reviewCollection.updateOne(query, updatedDoc);
-            res.send(review);
+            const result = await reviewCollection.updateOne(query, updatedDoc);
+            res.send(result);
         })
 
         app.delete('/reviews/:id', verifyJWT, async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const review = await reviewCollection.deleteOne(query);
-            res.send(review);
+            const result = await reviewCollection.deleteOne(query);
+            console.log({query, result});
+            res.send(result);
         })
 
     }
